@@ -1,0 +1,47 @@
+﻿
+@model CustomerApp.DataLayer.Dtos.OrderDetailDto
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h1>Order Details</h1>
+
+<table class="table">
+    <tr>
+        <th>Customer Name</th>
+        <td>@Model.CustomerName</td>
+    </tr>
+    <tr>
+        <th>Order Date</th>
+        <td>@Model.OrderDate.ToShortDateString()</td>
+    </tr>
+</table>
+
+<h2>Order Items</h2>
+    @Html.ActionLink("Add Order Item", "AddItem", "Order", new {orderId = Model.OrderId }, new { @class = "btn btn-sm btn-primary" })
+<table class="table">
+    <thead>
+        <tr>
+            <th>Item Description</th>
+            <th>Quantity</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.OrderDetails)
+        {
+            <tr>
+                <td>@item.ItemDescription</td>
+                <td>@item.Quantity</td>
+                <td>@item.Price</td>
+                <td>
+                    @Html.ActionLink("Edit", "UpdateOrderDetail", "OrderDetail", new { id = item.Id }, new { @class = "btn btn-sm btn-success" })
+                    <a class="btn btn-sm btn-danger" onclick="deleteOrder('@item.Id')">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    @Html.ActionLink("Customer Detail", "GetCustomer", "Customer", new { customerId = Model.CustomerId }, new { @class = "btn btn-sm btn-info" })
+</div>

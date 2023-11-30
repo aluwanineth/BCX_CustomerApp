@@ -1,0 +1,46 @@
+﻿
+@model CustomerApp.DataLayer.Dtos.CustomerDetailDto
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Customer Details</h2>
+
+<p>Customer Name: @Model.Name</p>
+
+<h3>Orders</h3>
+<p><a class="btn btn-sm btn-primary" onclick="addOrder(@Model.Id)">Create Order &raquo;</a></p>
+@if (Model.Orders.Any())
+{
+    <table>
+        <tr>
+            <th>Order ID</th>
+            <th>Order Date</th>
+        </tr>
+        @foreach (var order in Model.Orders)
+        {
+            <tr>
+                <td>@order.Id</td>
+                <td>@order.OrderDate</td>
+                <td>
+                    @Html.ActionLink("Order Detail", "OrderDetail", "Order", new { orderId = @order.Id }, new { @class = "btn btn-sm btn-info" })|
+                    <a class="btn btn-sm btn-danger" onclick="deleteOrder(@order.Id)">Delete</a>
+                </td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <p>No orders found for this customer.</p>
+}
+
+<div>
+    @Html.ActionLink("Back to Customer", "Index", "Customer", null, new { @class = "btn btn-sm btn-info" })|
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="~/Scripts/CustomerApp/OrderFunctions.js"></script>
+<link href="~/Scripts/sweetalert2/sweetalert2.min.css" rel="stylesheet" />
+<script src="~/Scripts/sweetalert2/sweetalert2.min.js"></script>
+
